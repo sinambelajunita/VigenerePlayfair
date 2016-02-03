@@ -10,26 +10,22 @@ package algorithm;
  * @author user
  */
 public class ExtendedVigenere {
-    /**
+    /*
      * clean all the non-alphabetic char
      * @param input
      * @return
      */
     public String cleanInput(String input){
-        char[] output = new char[input.length()];
-        int j = 0; // counter for output
+        StringBuilder output = new StringBuilder();
         for(int i = 0; i < input.length(); i++){
             if(input.charAt(i) >= 'a' && input.charAt(i) <= 'z'){
-                output[j] = input.charAt(i);
-                j++;
+                output.append(input.charAt(i));
             }
             else if(input.charAt(i) >= 'A' && input.charAt(i) <= 'Z'){
-                output[j] = input.charAt(i);
-                j++;
+                output.append(input.charAt(i));
             }
         }
-        String outputString = new String(output);
-        return outputString.toLowerCase();
+        return new String(output);
     }
     /**
      * Encrypt uppercase plaintext with 256 ASCII character key.
@@ -38,11 +34,13 @@ public class ExtendedVigenere {
      * @return
      */
     public String encrypt(String input, String key){
-        char[] output = new char[input.length()];
+        String cleanInput = cleanInput(input);
+        char[] output = new char[cleanInput.length()];
         int nKey = key.length();
         int j = 0;
-        for(int i = 0; i < input.length(); i++){
-            output[i] = (char) (((input.charAt(i) + key.charAt(j) - 96) % 26) + 96);
+        for(int i = 0; i < cleanInput.length(); i++){
+            output[i] = (char) ((cleanInput.charAt(i) + key.charAt(j)) % 256);
+            System.out.println((int)output[i]);
             j++;
             if(j == nKey){
                 j = 0;
@@ -61,7 +59,7 @@ public class ExtendedVigenere {
         int nKey = key.length();
         int j = 0;
         for(int i = 0; i < input.length(); i++){
-            output[i] = (char) (((input.charAt(i) - key.charAt(j) - 96) % 26) + 96);
+            output[i] = (char) ((input.charAt(i) - key.charAt(j) + 256) % 256);
             j++;
             if(j == nKey){
                 j = 0;

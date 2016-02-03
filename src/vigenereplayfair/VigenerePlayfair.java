@@ -5,6 +5,11 @@
  */
 package vigenereplayfair;
 
+import algorithm.ExtendedVigenere;
+import algorithm.PlayFair;
+import algorithm.StandardVigenere;
+import java.util.Scanner;
+
 /**
  *
  * @author user
@@ -16,6 +21,39 @@ public class VigenerePlayfair {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String input, output = "", key;
+        int n, ed;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Masukkan kalimat yang ingin diolah :");
+        input = in.nextLine();
+        System.out.println("Masukkan key: ");
+        key = in.nextLine();
+        System.out.println("Masukkan nomor algoritma :");
+        n = in.nextInt();
+        System.out.println("Masukkan encrypt/decrypt :");
+        ed = in.nextInt();
+        if(n == 1){
+            StandardVigenere s = new StandardVigenere();
+            if(ed == 1)
+                output = s.encrypt(input, key);
+            else
+                output = s.decrypt(input, key);
+        }
+        else if(n == 2){
+            ExtendedVigenere s = new ExtendedVigenere();
+            if(ed == 1)
+                output = s.encrypt(input, key);
+            else
+                output = s.decrypt(input, key);
+        }
+        else if(n == 3){
+            PlayFair s = new PlayFair();
+            if(ed == 1)
+                output = s.encrypt(input, key);
+            else
+                output = s.decrypt(input, key);
+        }
+        System.out.println("Hasilnya : \n" + output);
     }
     
 }

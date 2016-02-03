@@ -16,16 +16,13 @@ public class StandardVigenere {
      * @return
      */
     private String cleanInput(String input){
-        char[] output = new char[input.length()];
-        int j = 0; // counter for output
+        StringBuilder output = new StringBuilder();
         for(int i = 0; i < input.length(); i++){
             if(input.charAt(i) >= 'a' && input.charAt(i) <= 'z'){
-                output[j] = input.charAt(i);
-                j++;
+                output.append(input.charAt(i));
             }
             else if(input.charAt(i) >= 'A' && input.charAt(i) <= 'Z'){
-                output[j] = input.charAt(i);
-                j++;
+                output.append(input.charAt(i));
             }
         }
         String outputString = new String(output);
@@ -42,8 +39,9 @@ public class StandardVigenere {
         char[] output = new char[cleanInput.length()];
         int nKey = key.length();
         int j = 0;
-        for(int i = 0; i < input.length(); i++){
-            output[i] = (char) (((cleanInput.charAt(i) + key.charAt(j) - 130) % 26) + 65);
+        for(int i = 0; i < cleanInput.length(); i++){
+            System.out.println((int) cleanInput.charAt(i));
+            output[i] = (char) (((cleanInput.charAt(i) - 'A' + key.toUpperCase().charAt(j) - 'A') % 26) + (int) 'A');
             j++;
             if(j == nKey){
                 j = 0;
@@ -62,7 +60,8 @@ public class StandardVigenere {
         int nKey = key.length();
         int j = 0;
         for(int i = 0; i < input.length(); i++){
-            output[i] = (char) (((input.charAt(i) - key.charAt(j) - 130) % 26) + 65);
+            int ia = ((input.charAt(i) + 26 - key.toUpperCase().charAt(j)) % 26);
+            output[i] = (char) (ia + 'A');
             j++;
             if(j == nKey){
                 j = 0;
