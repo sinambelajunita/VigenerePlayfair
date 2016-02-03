@@ -11,11 +11,11 @@ package algorithm;
  */
 public class StandardVigenere {
     /**
-     * clean all the non-alphabetic char
+     * Clean all the non-alphabetic char from plaintext.
      * @param input
      * @return
      */
-    public String cleanInput(String input){
+    private String cleanInput(String input){
         char[] output = new char[input.length()];
         int j = 0; // counter for output
         for(int i = 0; i < input.length(); i++){
@@ -32,17 +32,37 @@ public class StandardVigenere {
         return outputString.toUpperCase();
     }
     /**
-     * encrypt with lower-case key
+     * Encrypt uppercase plaintext with 26 alphabet character.
      * @param input
      * @param key
      * @return
      */
     public String encrypt(String input, String key){
+        String cleanInput = cleanInput(input);
+        char[] output = new char[cleanInput.length()];
+        int nKey = key.length();
+        int j = 0;
+        for(int i = 0; i < input.length(); i++){
+            output[i] = (char) (((cleanInput.charAt(i) + key.charAt(j) - 130) % 26) + 65);
+            j++;
+            if(j == nKey){
+                j = 0;
+            }
+        }
+        return new String(output);
+    }
+    /**
+     * Decrypt cipher with 26 alphabet character.
+     * @param input
+     * @param key
+     * @return
+     */
+    public String decrypt(String input, String key){
         char[] output = new char[input.length()];
         int nKey = key.length();
         int j = 0;
         for(int i = 0; i < input.length(); i++){
-            output[i] = (char) (((input.charAt(i) + key.charAt(j) - 130) % 26) + 65);
+            output[i] = (char) (((input.charAt(i) - key.charAt(j) - 130) % 26) + 65);
             j++;
             if(j == nKey){
                 j = 0;

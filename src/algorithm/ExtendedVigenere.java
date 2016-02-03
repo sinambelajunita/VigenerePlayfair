@@ -32,7 +32,7 @@ public class ExtendedVigenere {
         return outputString.toLowerCase();
     }
     /**
-     * encrypt with lower-case key and 26 alphabet
+     * Encrypt uppercase plaintext with 256 ASCII character key.
      * @param input
      * @param key
      * @return
@@ -43,6 +43,25 @@ public class ExtendedVigenere {
         int j = 0;
         for(int i = 0; i < input.length(); i++){
             output[i] = (char) (((input.charAt(i) + key.charAt(j) - 96) % 26) + 96);
+            j++;
+            if(j == nKey){
+                j = 0;
+            }
+        }
+        return new String(output);
+    }
+    /**
+     * Decrypt cipher with 256 ASCII character.
+     * @param input
+     * @param key
+     * @return
+     */
+    public String decrypt(String input, String key){
+        char[] output = new char[input.length()];
+        int nKey = key.length();
+        int j = 0;
+        for(int i = 0; i < input.length(); i++){
+            output[i] = (char) (((input.charAt(i) - key.charAt(j) - 96) % 26) + 96);
             j++;
             if(j == nKey){
                 j = 0;

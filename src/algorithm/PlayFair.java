@@ -14,6 +14,12 @@ public class PlayFair {
     public PlayFair(){
         keyMatrix = new char[6][6];
     }
+    /**
+     * clean input string from non alphabet character and change 'j' and 'J' to 'I'
+     * @param input
+     * @param key
+     * @return
+     */
     private String cleanInput(String input){
         char[] output = new char[input.length()];
         int j = 0; // counter for output
@@ -40,6 +46,12 @@ public class PlayFair {
         String outputString = new String(output);
         return outputString.toUpperCase();
     }
+    /**
+     * clean input string from non alphabet character and 'j' and 'J'
+     * @param input
+     * @param key
+     * @return
+     */
     private String cleanKey(String input){
         char[] output = new char[input.length()];
         int j = 0; // counter for output
@@ -60,6 +72,11 @@ public class PlayFair {
         String outputString = new String(output);
         return outputString.toUpperCase();
     }
+    /**
+     * make matrix key from key input
+     * @param key
+     * @return
+     */
     private void makeKeyMatrix(String key){
         boolean[] isUsed = new boolean[26];
         for(int i = 0; i < 26; i++){
@@ -96,6 +113,11 @@ public class PlayFair {
         }
         keyMatrix[5][5] = '0';
     }
+    /**
+     * Get number of column of a character in key matrix. Start from 0
+     * @param c
+     * @return
+     */
     private int column(char c){
         int i = 0, j = 0, column = 0;
         while(i < 6){
@@ -110,6 +132,11 @@ public class PlayFair {
         }
         return column;
     }
+    /**
+     * Get number of row of a character in key matrix. Start from 0
+     * @param c
+     * @return
+     */
     private int row(char c){
         int i = 0, j = 0, row = 0;
         while(i < 6){
@@ -124,6 +151,12 @@ public class PlayFair {
         }
         return row;
     }
+    /**
+     * Encrypt input plaintext from user with input key. Return cipher string
+     * @param key
+     * @param input
+     * @return
+     */
     public String encrypt(String key, String input){
         String cleanInput = cleanInput(input);
         makeKeyMatrix(key);
@@ -155,6 +188,37 @@ public class PlayFair {
             else if(column(c1) == column(c2)){
                 output[j] = keyMatrix[column(c1)][row(c1) + 1];
                 output[j + 1] = keyMatrix[column(c2)][row(c2) + 1];
+            }
+            else{
+                output[j] = keyMatrix[column(c2)][row(c1)];
+                output[j + 1] = keyMatrix[column(c1)][row(c2)];
+            }
+            j+=2;
+        }
+        return new String(output);
+    }
+    /**
+     * Decrypt input cipher from user with input key. Return plaintext string
+     * @param key
+     * @param input
+     * @return
+     */
+    public String decrypt(String key, String input){
+        makeKeyMatrix(key);
+        char[] output = new char[input.length()*2];
+        char c1, c2;
+        int i = 0, j = 0, nInput = input.length();
+        while (i < nInput){
+            c1 = input.charAt(i);
+            c2 = input.charAt(i + 1);
+            i+=2;
+            if(row(c1) == row(c2)){
+                output[j] = keyMatrix[column(c1) - 1][c1];
+                output[j + 1] = keyMatrix[column(c2) - 1][row(c2)];
+            }
+            else if(column(c1) == column(c2)){
+                output[j] = keyMatrix[column(c1)][row(c1) - 1];
+                output[j + 1] = keyMatrix[column(c2)][row(c2) - 1];
             }
             else{
                 output[j] = keyMatrix[column(c2)][row(c1)];
