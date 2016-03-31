@@ -5,17 +5,36 @@
  */
 package GUI;
 
+import algorithm.ExtendedVigenere;
+import algorithm.PlayFair;
+import algorithm.StandardVigenere;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.activation.MimetypesFileTypeMap;
+import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author user
  */
-public class GUI extends javax.swing.JFrame {
-
+public class GUI extends javax.swing.JFrame {    
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
+        initJFrame();
+        initButtonGroups();
     }
 
     /**
@@ -27,174 +46,369 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        plainTextJTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        filePathJTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        hasilJTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        keyJTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jLabel5 = new javax.swing.JLabel();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
+        extendedVigenereJRadioButton = new javax.swing.JRadioButton();
+        playFairJRadioButton = new javax.swing.JRadioButton();
+        standardVigenereJRadioButton = new javax.swing.JRadioButton();
+        enkripsiJButton = new javax.swing.JButton();
+        dekripsiJButton = new javax.swing.JButton();
+        browseJButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        apaAdanyaJRadioButton = new javax.swing.JRadioButton();
+        tanpaSpasiJRadioButton = new javax.swing.JRadioButton();
+        limaHurufJRadioButton = new javax.swing.JRadioButton();
+        jLabel7 = new javax.swing.JLabel();
+        saveCipherJButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Vigenere & Play Fair Encryptor/Decryptor");
 
-        jTextField1.setText("jTextField1");
+        plainTextJTextField.setName(""); // NOI18N
+        plainTextJTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plainTextJTextFieldActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Masukkan input yang ingin dienkripsi");
 
         jLabel2.setText("Atau baca dari file external :");
 
-        jTextField2.setText("jTextField2");
+        filePathJTextField.setEditable(false);
 
-        jToggleButton1.setText("Browse");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        hasilJTextArea.setColumns(20);
+        hasilJTextArea.setRows(5);
+        jScrollPane1.setViewportView(hasilJTextArea);
 
         jLabel3.setText("Masukkan kunci :");
 
-        jTextField3.setText("jTextField3");
+        keyJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                keyJTextFieldKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("Tampilan :");
 
-        jRadioButton1.setText("jRadioButton1");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        extendedVigenereJRadioButton.setText("Extended Vigenere");
+        extendedVigenereJRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                extendedVigenereJRadioButtonActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("jRadioButton2");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        playFairJRadioButton.setText("Play Fair");
+        playFairJRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                playFairJRadioButtonActionPerformed(evt);
             }
         });
 
-        jRadioButton3.setText("jRadioButton3");
+        standardVigenereJRadioButton.setText("Standard Vigenere");
 
-        jLabel5.setText("Hasil ");
-
-        jToggleButton2.setText("Enkripsi");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        enkripsiJButton.setText("Enkripsi");
+        enkripsiJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                enkripsiJButtonActionPerformed(evt);
             }
         });
 
-        jToggleButton3.setText("Dekripsi");
+        dekripsiJButton.setText("Dekripsi");
+        dekripsiJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dekripsiJButtonActionPerformed(evt);
+            }
+        });
+
+        browseJButton.setText("Browse");
+        browseJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseJButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Algoritma :");
+
+        apaAdanyaJRadioButton.setText("Apada Adanya");
+
+        tanpaSpasiJRadioButton.setText("Tanpa Spasi");
+        tanpaSpasiJRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tanpaSpasiJRadioButtonActionPerformed(evt);
+            }
+        });
+
+        limaHurufJRadioButton.setText("Kelompok 5 Huruf");
+
+        jLabel7.setText("Hasil");
+
+        saveCipherJButton.setText("Simpan Cipher ke File");
+        saveCipherJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveCipherJButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(enkripsiJButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dekripsiJButton))
+                    .addComponent(jLabel7)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(standardVigenereJRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jRadioButton3)
-                                .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jToggleButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToggleButton3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(extendedVigenereJRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tanpaSpasiJRadioButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(limaHurufJRadioButton)
+                            .addComponent(playFairJRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3)
-                        .addComponent(jTextField3)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(apaAdanyaJRadioButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(saveCipherJButton))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(28, 28, 28)
-                            .addComponent(jToggleButton1))
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(filePathJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
+                            .addComponent(browseJButton))
+                        .addComponent(keyJTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(plainTextJTextField, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(plainTextJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
+                    .addComponent(filePathJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browseJButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addComponent(keyJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton2)
-                    .addComponent(jToggleButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
-                        .addGap(5, 5, 5)
-                        .addComponent(jRadioButton3)
-                        .addGap(56, 56, 56))))
+                    .addComponent(jLabel6)
+                    .addComponent(standardVigenereJRadioButton)
+                    .addComponent(extendedVigenereJRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(playFairJRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(apaAdanyaJRadioButton)
+                    .addComponent(tanpaSpasiJRadioButton)
+                    .addComponent(limaHurufJRadioButton))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(enkripsiJButton)
+                    .addComponent(dekripsiJButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveCipherJButton))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    
+    private void extendedVigenereJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extendedVigenereJRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_extendedVigenereJRadioButtonActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void playFairJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playFairJRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_playFairJRadioButtonActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void tanpaSpasiJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanpaSpasiJRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_tanpaSpasiJRadioButtonActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+    private void keyJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyJTextFieldKeyReleased
+        key = keyJTextField.getText();
+        if(key.length() > 25) {
+            enkripsiJButton.setEnabled(false);
+            dekripsiJButton.setEnabled(false);
+        } else {
+            enkripsiJButton.setEnabled(true);
+            dekripsiJButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_keyJTextFieldKeyReleased
+
+    private void enkripsiJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enkripsiJButtonActionPerformed
+        plainText = plainTextJTextField.getText();
+        key = keyJTextField.getText();
+        
+        if(standardVigenereJRadioButton.isSelected()) {
+            cipherText = standardVigenere.encryptText(plainText, key);
+        } else if(extendedVigenereJRadioButton.isSelected()) {
+            cipherText = extendedVigenere.encryptText(plainText, key);
+        } else {
+            cipherText = playFair.encryptText(plainText, key);
+        }
+
+        outputCipherText();
+        
+    }//GEN-LAST:event_enkripsiJButtonActionPerformed
+
+    private void outputCipherText() {
+        String tempCipherText;
+        if(apaAdanyaJRadioButton.isSelected()) {
+            tempCipherText = cipherText;
+            StringBuilder tempCipherTextBuilder = new StringBuilder(tempCipherText);
+            for(int i=0; i<plainText.length(); i++) {
+                if(!(plainText.charAt(i) >= 'a' && plainText.charAt(i) <= 'z') && !(plainText.charAt(i) >= 'A' && plainText.charAt(i) <= 'Z')) {
+                    tempCipherTextBuilder.insert(i, plainText.charAt(i));
+                }
+            }
+            tempCipherText = tempCipherTextBuilder.toString();
+        } else if(tanpaSpasiJRadioButton.isSelected()) {
+            tempCipherText = cipherText.replaceAll(" ", "");
+        } else {
+            StringBuilder tempCipherTextBuilder = new StringBuilder();
+            for(int i=0; i<cipherText.length(); i++){
+                tempCipherTextBuilder.append(cipherText.charAt(i));
+                if((i+1) % 5 == 0) {
+                    tempCipherTextBuilder.append(" ");
+                }
+            }
+            tempCipherText = tempCipherTextBuilder.toString();
+        }
+        
+        hasilJTextArea.setText(tempCipherText);
+    }
+    
+    private void outputPlainText() {
+        String tempPlainText;
+        if(apaAdanyaJRadioButton.isSelected()) {
+            tempPlainText = plainText;
+            StringBuilder tempPlainTextBuilder = new StringBuilder(tempPlainText);
+            for(int i=0; i<cipherText.length(); i++) {
+                if(cipherText.charAt(i) == ' ') {
+                    tempPlainTextBuilder.insert(i, " ");
+                }
+            }
+            tempPlainText = tempPlainTextBuilder.toString();
+        } else if(tanpaSpasiJRadioButton.isSelected()) {
+            tempPlainText = plainText.replaceAll(" ", "");
+        } else {
+            StringBuilder tempCipherTextBuilder = new StringBuilder();
+            for(int i=0; i<plainText.length(); i++){
+                tempCipherTextBuilder.append(plainText.charAt(i));
+                if((i+1) % 5 == 0) {
+                    tempCipherTextBuilder.append(" ");
+                }
+            }
+            tempPlainText = tempCipherTextBuilder.toString();
+        }
+        
+        hasilJTextArea.setText(tempPlainText);
+    }
+    
+    private void dekripsiJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dekripsiJButtonActionPerformed
+        cipherText = plainTextJTextField.getText();
+        key = keyJTextField.getText();
+                
+        if(standardVigenereJRadioButton.isSelected()) {
+            plainText = standardVigenere.decryptText(cipherText, key);
+        } else if(extendedVigenereJRadioButton.isSelected()) {
+            plainText = extendedVigenere.decryptText(cipherText, key);
+        } else {
+            plainText = playFair.decryptText(cipherText, key);
+        }
+        
+        outputPlainText();
+    }//GEN-LAST:event_dekripsiJButtonActionPerformed
+
+    private void browseJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseJButtonActionPerformed
+        StringBuilder plaintTextBuilder = new StringBuilder();
+        int retval;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        retval = fileChooser.showOpenDialog(this);
+        if(retval == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            filePathJTextField.setText(selectedFile.getName());
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
+                String currentLine = reader.readLine();
+                while(currentLine != null) {
+                    plaintTextBuilder.append(currentLine);
+                    currentLine = reader.readLine();
+                }
+                plainText = plaintTextBuilder.toString();
+                plainTextJTextField.setText(plainText);
+                key = keyJTextField.getText();
+            } 
+            catch (FileNotFoundException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_browseJButtonActionPerformed
+
+    private void saveCipherJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCipherJButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
+        int retval;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        retval = fileChooser.showSaveDialog(this);
+        if(retval == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
 
+            FileWriter fw;
+            try {
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                try (BufferedWriter fileOut = new BufferedWriter(new FileWriter(file.getAbsoluteFile()))) {
+                    hasilJTextArea.write(fileOut);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_saveCipherJButtonActionPerformed
+
+    private void plainTextJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plainTextJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plainTextJTextFieldActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -231,21 +445,54 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton apaAdanyaJRadioButton;
+    private javax.swing.JButton browseJButton;
+    private javax.swing.JButton dekripsiJButton;
+    private javax.swing.JButton enkripsiJButton;
+    private javax.swing.JRadioButton extendedVigenereJRadioButton;
+    private javax.swing.JTextField filePathJTextField;
+    private javax.swing.JTextArea hasilJTextArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JTextField keyJTextField;
+    private javax.swing.JRadioButton limaHurufJRadioButton;
+    private javax.swing.JTextField plainTextJTextField;
+    private javax.swing.JRadioButton playFairJRadioButton;
+    private javax.swing.JButton saveCipherJButton;
+    private javax.swing.JRadioButton standardVigenereJRadioButton;
+    private javax.swing.JRadioButton tanpaSpasiJRadioButton;
     // End of variables declaration//GEN-END:variables
+
+    private void initJFrame() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+    }
+    
+    private ButtonGroup algorithmButtonGroup;
+    private ButtonGroup outputButtonGroup;
+    private String plainText;
+    private String cipherText;
+    private String key;
+    private StandardVigenere standardVigenere = new StandardVigenere();
+    private ExtendedVigenere extendedVigenere = new ExtendedVigenere();
+    private PlayFair playFair = new PlayFair();
+    
+    private void initButtonGroups(){
+        algorithmButtonGroup = new ButtonGroup();
+        algorithmButtonGroup.add(extendedVigenereJRadioButton);
+        algorithmButtonGroup.add(playFairJRadioButton);
+        algorithmButtonGroup.add(standardVigenereJRadioButton);
+        standardVigenereJRadioButton.setSelected(true);
+        
+        outputButtonGroup = new ButtonGroup();
+        outputButtonGroup.add(apaAdanyaJRadioButton);
+        outputButtonGroup.add(tanpaSpasiJRadioButton);
+        outputButtonGroup.add(limaHurufJRadioButton);
+        apaAdanyaJRadioButton.setSelected(true);
+    }
 }

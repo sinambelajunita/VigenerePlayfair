@@ -30,18 +30,16 @@ public class StandardVigenere {
     }
     /**
      * Encrypt uppercase plaintext with 26 alphabet character.
-     * @param input
+     * @param cleanInput
      * @param key
      * @return
      */
-    public String encrypt(String input, String key){
-        String cleanInput = cleanInput(input);
-        char[] output = new char[cleanInput.length()];
+    public String encrypt(byte[] cleanInput, String key){
+        char[] output = new char[cleanInput.length];
         int nKey = key.length();
         int j = 0;
-        for(int i = 0; i < cleanInput.length(); i++){
-            System.out.println((int) cleanInput.charAt(i));
-            output[i] = (char) (((cleanInput.charAt(i) - 'A' + key.toUpperCase().charAt(j) - 'A') % 26) + (int) 'A');
+        for(int i = 0; i < cleanInput.length; i++){
+            output[i] = (char) (((cleanInput[i] - 'A' + key.toUpperCase().charAt(j) - 'A') % 26) + (int) 'A');
             j++;
             if(j == nKey){
                 j = 0;
@@ -51,16 +49,16 @@ public class StandardVigenere {
     }
     /**
      * Decrypt cipher with 26 alphabet character.
-     * @param input
+     * @param cleanInput
      * @param key
      * @return
      */
-    public String decrypt(String input, String key){
-        char[] output = new char[input.length()];
+    public String decrypt(byte[] cleanInput, String key){
+        char[] output = new char[cleanInput.length];
         int nKey = key.length();
         int j = 0;
-        for(int i = 0; i < input.length(); i++){
-            int ia = ((input.charAt(i) + 26 - key.toUpperCase().charAt(j)) % 26);
+        for(int i = 0; i < cleanInput.length; i++){
+            int ia = ((cleanInput[i] + 26 - key.toUpperCase().charAt(j)) % 26);
             output[i] = (char) (ia + 'A');
             j++;
             if(j == nKey){
@@ -68,5 +66,16 @@ public class StandardVigenere {
             }
         }
         return new String(output);
+    }
+    
+    public String encryptText(String input, String key){
+        String cleanInput = cleanInput(input);
+        byte[] cleanInputByte = cleanInput.getBytes();
+        return encrypt(cleanInputByte, key);
+    }
+    public String decryptText(String input, String key){
+        String cleanInput = cleanInput(input);
+        byte[] cleanInputByte = cleanInput.getBytes();
+        return decrypt(cleanInputByte, key);
     }
 }

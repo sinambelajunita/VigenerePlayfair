@@ -90,12 +90,24 @@ public class PlayFair {
         for(int i = 0; i < 5; i++)
             for(int j = 0; j < 5; j++){
                 if(n < nKey){
-                    while(isUsed[cleanKey.charAt(n) - 65]){
+                    while(n < nKey && isUsed[cleanKey.charAt(n) - 65]){
                         n++;
                     }
-                    keyMatrix[i][j] = cleanKey.charAt(n);
-                    isUsed[cleanKey.charAt(n) - 65] = true;
-                    n++;
+                    if(n < nKey){
+                        keyMatrix[i][j] = cleanKey.charAt(n);
+                        isUsed[cleanKey.charAt(n) - 65] = true;
+                        n++;
+                    }
+                    else{
+                        while(m < 26 && isUsed[m]){
+                            m++;
+                        }
+                        if(m < 26){
+                            keyMatrix[i][j] = (char)(m + 65);
+                            isUsed[m] = true;
+                            m++;
+                        }
+                    }
                 }
                 else{
                     while(m < 26 && isUsed[m]){
@@ -165,24 +177,23 @@ public class PlayFair {
     /**
      * Encrypt input plaintext from user with input key. Return cipher string
      * @param key
-     * @param input
+     * @param cleanInput
      * @return
      */
-    public String encrypt(String input, String key){
-        String cleanInput = cleanInput(input);
+    public String encrypt(byte[] cleanInput, String key){
         makeKeyMatrix(key);
-        char[] output = new char[(cleanInput.length() + 1)*2];
+        char[] output = new char[(cleanInput.length + 1)*2];
         char c1, c2;
-        int i = 0, j = 0, nInput = cleanInput.length();
+        int i = 0, j = 0, nInput = cleanInput.length;
         while (i < nInput){
-            if(i == nInput - 1 || (cleanInput.charAt(i) == cleanInput.charAt(i + 1))){
-                c1 = cleanInput.charAt(i);
+            if(i == nInput - 1 || (cleanInput[i] == cleanInput[i + 1])){
+                c1 = (char) cleanInput[i];
                 c2 = 'Z';
                 i++;
             }
             else{
-                c1 = cleanInput.charAt(i);
-                c2 = cleanInput.charAt(i + 1);
+                c1 = (char) cleanInput[i];
+                c2 = (char) cleanInput[i + 1];
                 i+=2;
             }
             if(row(c1) == row(c2)){
@@ -207,14 +218,14 @@ public class PlayFair {
      * @param input
      * @return
      */
-    public String decrypt(String input, String key){
+    public String decrypt(byte[] input, String key){
         makeKeyMatrix(key);
-        char[] output = new char[input.length()*2];
+        char[] output = new char[input.length*2];
         char c1, c2;
-        int i = 0, j = 0, nInput = input.length();
+        int i = 0, j = 0, nInput = input.length;
         while (i < nInput){
-            c1 = input.charAt(i);
-            c2 = input.charAt(i + 1);
+            c1 = (char) input[i];
+            c2 = (char) input[i + 1];
             i+=2;
             if(row(c1) == row(c2)){
                 int column1 = column(c1), column2 = column(c2);
@@ -232,16 +243,23 @@ public class PlayFair {
             }
             else{
                 int column1 = column(c1), column2 = column(c2);
-                if(column1 == 0) column1 = 5;
-                if(column2 == 0) column2 = 5;
                 int row1 = row(c1), row2 = row(c2);
-                if(row1 == 0) row1 = 5;
-                if(row2 == 0) row2 = 5;
                 output[j] = keyMatrix[row1][column2];
                 output[j + 1] = keyMatrix[row2][column1];
             }
             j+=2;
         }
         return new String(output);
+    }
+    
+    public String encryptText(String input, String key){
+        String cleanInput = cleanInput(input);
+        byte[] cleanInputByte = cleanInput.getBytes();
+        return encrypt(cleanInputByte, key);
+    }
+    public String decryptText(String input, String key){
+        String cleanInput = cleanInput(input);
+        byte[] cleanInputByte = cleanInput.getBytes();
+        return decrypt(cleanInputByte, key);
     }
 }

@@ -35,23 +35,23 @@ public class VigenerePlayfair {
         if(n == 1){
             StandardVigenere s = new StandardVigenere();
             if(ed == 1)
-                output = s.encrypt(input, key);
+                output = s.encryptText(input, key);
             else
-                output = s.decrypt(input, key);
+                output = s.decryptText(input, key);
         }
         else if(n == 2){
             ExtendedVigenere s = new ExtendedVigenere();
             if(ed == 1)
-                output = s.encrypt(input, key);
+                output = s.encryptText(input, key);
             else
-                output = s.decrypt(input, key);
+                output = s.decryptText(input, key);
         }
         else if(n == 3){
             PlayFair s = new PlayFair();
             if(ed == 1)
-                output = s.encrypt(input, key);
+                output = s.encryptText(input, key);
             else
-                output = s.decrypt(input, key);
+                output = s.decryptText(input, key);
         }
         System.out.println("Hasilnya : \n" + output);
     }
